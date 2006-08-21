@@ -1,13 +1,14 @@
 #
 # Based on the table at http://aspell.net/metaphone/metaphone-kuhn.txt,
-# with surprising results changed to 'correct' ones (according to my interpretation
-# of the algorithm description), and some more results from around the web:
+# this mimics the behaviour of Lawrence Philips's BASIC implementation,
+# which appears to contain bugs when compared to his description of the 
+# algorithm.
 #
 ANASTHA: ANS0
 DAVIS-CARTER: TFSKRTR
 ESCARMANT: ESKRMNT
-MCCALL: MKL
-MCCROREY: MKRR
+MCCALL: MKKL
+MCCROREY: MKKRR
 MERSEAL: MRSL
 PIEURISSAINT: PRSNT
 ROTMAN: RTMN
@@ -38,7 +39,7 @@ HEIDI: HT
 AUTO: AT
 MAURICE: MRS
 RANDY: RNT
-CAMBRILLO: KMBRL
+CAMBRILLO: KMRL
 BRIAN: BRN
 RAY: R
 GEOFF: JF
