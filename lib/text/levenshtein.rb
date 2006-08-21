@@ -12,13 +12,27 @@
 #
 module Text
 module Levenshtein
-  #
+
   # Calculate the Levenshtein distance between two strings +str1+ and +str2+.
-  # +str1+ and +str2+ should be ASCII or UTF-8.
+  # +str1+ and +str2+ should be ASCII, UTF-8, or a one-byte-per character encoding such
+  # as ISO-8859-*.
+  #
+  # The strings will be treated as UTF-8 if $KCODE is set appropriately (i.e. 'u').
+  # Otherwise, the comparison will be performed byte-by-byte. There is no specific support 
+  # for Shift-JIS or EUC strings.
+  #
+  # When using Unicode text, be aware that this algorithm does not perform normalisation. 
+  # If there is a possibility of different normalised forms being used, normalisation
+  # should be performed beforehand.
   #
   def distance(str1, str2)
-    s = str1.unpack('U*')
-    t = str2.unpack('U*')
+    if $KCODE =~ /^U/i
+      unpack_rule = 'U*'
+    else
+      unpack_rule = 'C*'
+    end
+    s = str1.unpack(unpack_rule)
+    t = str2.unpack(unpack_rule)
     n = s.length
     m = t.length
     return m if (0 == n)
