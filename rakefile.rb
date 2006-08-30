@@ -2,7 +2,9 @@ require 'rubygems'
 
 require 'rake'
 require 'rake/testtask'
+require 'rake/packagetask'
 require 'rake/gempackagetask'
+require 'rcov/rcovtask'
 
 gemspec = Gem::Specification.new do |s|
   s.name = 'Text'
@@ -14,13 +16,25 @@ gemspec = Gem::Specification.new do |s|
   s.has_rdoc = false
   s.rubyforge_project = 'text'
   s.homepage = 'http://text.rubyforge.org/'
+  s.author = 'Paul Battley, Michael Neumann, Tim Fletcher'
 end
 
 Rake::GemPackageTask.new(gemspec) { |t| t.package_dir = 'gems' }
 
+Rake::PackageTask.new('text', '1.0.0') do |p|
+  p.need_tar_gz = true
+  p.package_files.include('lib/**/*.rb')
+end
+
 Rake::TestTask.new do |t|
   t.test_files = FileList['test/*_test.rb']
   t.verbose = false
+end
+
+Rcov::RcovTask.new do |t|
+  t.test_files = FileList['test/*_test.rb']
+  t.output_dir = 'coverage'
+  t.rcov_opts = []
 end
 
 task :default => :test
