@@ -6,12 +6,13 @@
 #
 # Author: Tim Fletcher (twoggle@gmail.com)
 #
-module Text
+
+module Text # :nodoc:
 module Metaphone
 
   # Returns the primary and secondary double metaphone tokens
   # (the secondary will be nil if equal to the primary).
-  def self.double_metaphone(str)
+  def double_metaphone(str)
     primary, secondary, current = [], [], 0
     original, length, last = "#{str}     ".upcase, str.length, str.length - 1
     if /^GN|KN|PN|WR|PS$/ =~ original[0, 2]
@@ -36,15 +37,15 @@ module Metaphone
 
   private
 
-  def self.slavo_germanic?(str)
+  def slavo_germanic?(str)
     /W|K|CZ|WITZ/ =~ str
   end
 
-  def self.vowel?(str)
+  def vowel?(str)
     /^A|E|I|O|U|Y$/ =~ str
   end
 
-  def self.double_metaphone_lookup(str, pos, length, last)
+  def double_metaphone_lookup(str, pos, length, last)
     case str[pos, 1]
       when /^A|E|I|O|U|Y$/
         if 0 == pos
@@ -318,9 +319,9 @@ module Metaphone
 
         if (last == pos && vowel?(str[pos - 1, 1])) || 'SCH' == str[0, 3] ||
             /^EWSKI|EWSKY|OWSKI|OWSKY$/ =~ str[pos - 1, 5]
-          return pri, :"#{sec}F", 1
+          return pri, "#{sec}F".intern, 1
         elsif /^WI(C|T)Z$/ =~ str[pos, 4]
-          return :"#{pri}TS", :"#{sec}FX", 4
+          return "#{pri}TS".intern, "#{sec}FX".intern, 4
         else
           return pri, sec, 1
         end
@@ -348,6 +349,8 @@ module Metaphone
         return nil, nil, 1
     end
   end # def double_metaphone_lookup
+
+  extend self
 
 end # module Metaphone
 end # module Text

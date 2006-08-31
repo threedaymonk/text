@@ -4,7 +4,8 @@
 #
 # Author: Michael Neumann (neumann@s-direktnet.de)
 #
-module Text
+
+module Text # :nodoc:
 module Soundex
 
   def soundex(str_or_arr)

@@ -10,7 +10,8 @@
 #
 # Author: Paul Battley (pbattley@gmail.com)
 #
-module Text
+
+module Text # :nodoc:
 module Levenshtein
 
   # Calculate the Levenshtein distance between two strings +str1+ and +str2+.

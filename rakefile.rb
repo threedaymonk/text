@@ -5,6 +5,7 @@ require 'rake/testtask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
 require 'rcov/rcovtask'
+require 'rake/rdoctask'
 
 gemspec = Gem::Specification.new do |s|
   s.name = 'Text'
@@ -35,6 +36,11 @@ Rcov::RcovTask.new do |t|
   t.test_files = FileList['test/*_test.rb']
   t.output_dir = 'coverage'
   t.rcov_opts = []
+end
+
+Rake::RDocTask.new do |t|
+  t.main = "README.rdoc"
+  t.rdoc_files.include("README.rdoc", "lib/**/*.rb")
 end
 
 task :default => :test

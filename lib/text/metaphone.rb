@@ -19,73 +19,76 @@
 # :buggy=>true to the methods.
 # 
 # Author: Paul Battley (pbattley@gmail.com)
-# 
-module Text
+#
+
+module Text # :nodoc:
 module Metaphone
 
-  # Metaphone rules.  These are simply applied in order.
-  #
-  RULES = [ 
-    # Regexp, replacement
-    [ /([bcdfhjklmnpqrstvwxyz])\1+/,
-                       '\1' ],  # Remove doubled consonants except g.
-                                # [PHP] remove c from regexp.
-    [ /^ae/,            'E' ],
-    [ /^[gkp]n/,        'N' ],
-    [ /^wr/,            'R' ],
-    [ /^x/,             'S' ],
-    [ /^wh/,            'W' ],
-    [ /mb$/,            'M' ],  # [PHP] remove $ from regexp.
-    [ /(?!^)sch/,      'SK' ],
-    [ /th/,             '0' ],
-    [ /t?ch|sh/,        'X' ],
-    [ /c(?=ia)/,        'X' ],
-    [ /[st](?=i[ao])/,  'X' ],
-    [ /s?c(?=[iey])/,   'S' ],
-    [ /[cq]/,           'K' ],
-    [ /dg(?=[iey])/,    'J' ],
-    [ /d/,              'T' ],
-    [ /g(?=h[^aeiou])/, ''  ],
-    [ /gn(ed)?/,        'N' ],
-    [ /([^g]|^)g(?=[iey])/,
-                      '\1J' ],
-    [ /g+/,             'K' ],
-    [ /ph/,             'F' ],
-    [ /([aeiou])h(?=\b|[^aeiou])/,
-                       '\1' ],
-    [ /[wy](?![aeiou])/, '' ],
-    [ /z/,              'S' ],
-    [ /v/,              'F' ],
-    [ /(?!^)[aeiou]+/,  ''  ],
-  ]
+  module Rules # :nodoc:all
+    
+    # Metaphone rules.  These are simply applied in order.
+    #
+    STANDARD = [ 
+      # Regexp, replacement
+      [ /([bcdfhjklmnpqrstvwxyz])\1+/,
+                         '\1' ],  # Remove doubled consonants except g.
+                                  # [PHP] remove c from regexp.
+      [ /^ae/,            'E' ],
+      [ /^[gkp]n/,        'N' ],
+      [ /^wr/,            'R' ],
+      [ /^x/,             'S' ],
+      [ /^wh/,            'W' ],
+      [ /mb$/,            'M' ],  # [PHP] remove $ from regexp.
+      [ /(?!^)sch/,      'SK' ],
+      [ /th/,             '0' ],
+      [ /t?ch|sh/,        'X' ],
+      [ /c(?=ia)/,        'X' ],
+      [ /[st](?=i[ao])/,  'X' ],
+      [ /s?c(?=[iey])/,   'S' ],
+      [ /[cq]/,           'K' ],
+      [ /dg(?=[iey])/,    'J' ],
+      [ /d/,              'T' ],
+      [ /g(?=h[^aeiou])/, ''  ],
+      [ /gn(ed)?/,        'N' ],
+      [ /([^g]|^)g(?=[iey])/,
+                        '\1J' ],
+      [ /g+/,             'K' ],
+      [ /ph/,             'F' ],
+      [ /([aeiou])h(?=\b|[^aeiou])/,
+                         '\1' ],
+      [ /[wy](?![aeiou])/, '' ],
+      [ /z/,              'S' ],
+      [ /v/,              'F' ],
+      [ /(?!^)[aeiou]+/,  ''  ],
+    ]
   
-  # The rules for the 'buggy' alternate implementation used by PHP etc.
-  #
-  BUGGY_RULES = RULES.dup
-  BUGGY_RULES[0] = [ /([bdfhjklmnpqrstvwxyz])\1+/, '\1' ]
-  BUGGY_RULES[6] = [ /mb/, 'M' ]
+    # The rules for the 'buggy' alternate implementation used by PHP etc.
+    #
+    BUGGY = STANDARD.dup
+    BUGGY[0] = [ /([bdfhjklmnpqrstvwxyz])\1+/, '\1' ]
+    BUGGY[6] = [ /mb/, 'M' ]
+  end
 
-  # Finds the Metaphone value for a word.  Note that only the letters A-Z are
-  # supported, so any language-specific processing should be done beforehand.
+  # Returns the Metaphone representation of a string. If the string contains
+  # multiple words, each word in turn is converted into its Metaphone
+  # representation. Note that only the letters A-Z are supported, so any
+  # language-specific processing should be done beforehand.
   #
-  # If the :buggy option is set, buggy rules are used.
+  # If the :buggy option is set, alternate 'buggy' rules are used.
   #
+  def metaphone(str, options={})
+    return str.strip.split(/\s+/).map { |w| metaphone_word(w, options) }.join(' ')
+  end
+  
+private
+
   def metaphone_word(w, options={})
     # Normalise case and remove non-ASCII
     s = w.downcase.gsub(/[^a-z]/, '')
     # Apply the Metaphone rules
-    rules = options[:buggy] ? BUGGY_RULES : RULES
+    rules = options[:buggy] ? Rules::BUGGY : Rules::STANDARD
     rules.each { |rx, rep| s.gsub!(rx, rep) }
     return s.upcase
-  end
-
-  # Finds the Metaphone values for a string containing multiple words by
-  # calling metaphone_word for each.
-  #
-  # If the :buggy option is set, buggy rules are used.
-  #
-  def metaphone(str, options={})
-    return str.strip.split(/\s+/).map { |w| metaphone_word(w, options) }.join(' ')
   end
 
   extend self
