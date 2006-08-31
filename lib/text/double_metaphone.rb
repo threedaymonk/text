@@ -7,11 +7,11 @@
 # Author: Tim Fletcher (twoggle@gmail.com)
 #
 module Text
-module DoubleMetaphone
+module Metaphone
 
   # Returns the primary and secondary double metaphone tokens
   # (the secondary will be nil if equal to the primary).
-  def self.[](str)
+  def self.double_metaphone(str)
     primary, secondary, current = [], [], 0
     original, length, last = "#{str}     ".upcase, str.length, str.length - 1
     if /^GN|KN|PN|WR|PS$/ =~ original[0, 2]
@@ -24,7 +24,7 @@ module DoubleMetaphone
     end
     while primary.length < 4 || secondary.length < 4
       break if current > str.length
-      a, b, c = lookup(original, current, length, last)
+      a, b, c = double_metaphone_lookup(original, current, length, last)
       primary << a if a
       secondary << b if b
       current += c if c
@@ -44,7 +44,7 @@ module DoubleMetaphone
     /^A|E|I|O|U|Y$/ =~ str
   end
 
-  def self.lookup(str, pos, length, last)
+  def self.double_metaphone_lookup(str, pos, length, last)
     case str[pos, 1]
       when /^A|E|I|O|U|Y$/
         if 0 == pos
@@ -347,7 +347,7 @@ module DoubleMetaphone
       else
         return nil, nil, 1
     end
-  end # def lookup
+  end # def double_metaphone_lookup
 
-end # module DoubleMetaphone
+end # module Metaphone
 end # module Text
