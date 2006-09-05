@@ -1,3 +1,32 @@
 = Text
 
 A collection of text algorithms.
+
+
+= Usage
+
+  require 'text'
+
+  font = Text::Figlet::Font.new('big.flf')
+  figlet = Text::Figlet::Typesetter.new(font)
+  figlet['Hello World']                       # => '...'
+
+  Text::Levenshtein.distance('test', 'test')  # => 0
+  Text::Levenshtein.distance('test', 'tent')  # => 1
+
+  Text::Metaphone.metaphone('BRIAN')          # => 'BRN'
+  Text::Metaphone.double_metaphone('Coburn')  # => ['KPRN', nil]
+  Text::Metaphone.double_metaphone('Angier')  # => ['ANJ', 'ANJR']
+
+  Text::Soundex.soundex('Knuth')              # => 'K530'
+
+
+= License
+
+Same as Ruby.
+
+
+= Credits
+
+Ruby implementations by Michael Neumann, Paul Battley and Tim Fletcher.
+
