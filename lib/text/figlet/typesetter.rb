@@ -3,8 +3,10 @@ module Figlet
 
   class Typesetter
 
-    def initialize(font)
+    def initialize(font, options = nil)
       @font = font
+      @options = options || {}
+      @smush = @options.has_key?(:smush) ? @options[:smush] : true
     end
 
     def [](str)
@@ -43,7 +45,7 @@ module Figlet
               end
             end
           end
-          smush[result]
+          smush[result] if @smush
         end
       end
       return result.join("\n").gsub(/\0/, '').gsub(@font.hard_blank, ' ')

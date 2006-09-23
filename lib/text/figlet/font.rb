@@ -18,7 +18,8 @@ module Figlet
       @max_length = header.shift
       @old_layout = header.shift.to_i
       @comment_count = header.shift.to_i
-      @right_to_left = header.shift == 0
+      @right_to_left = header.shift
+      @right_to_left = !@right_to_left.nil? && @right_to_left.to_i == 1
       
       @load_german, @characters = load_german, {}
 
@@ -27,7 +28,7 @@ module Figlet
       load_german_characters file
       load_extended_characters file
       
-      file.close; return
+      file.close
     end
 
     def [](char)
@@ -69,7 +70,8 @@ module Figlet
     end
     
     def load_extended_characters(file)
-      while i = file.gets.strip.strip.split(/ /).first
+      until file.eof?
+        i = file.gets.strip.split(/ /).first
         if i.empty?
           next
         elsif /^\-0x/i =~ i # comment
@@ -85,7 +87,6 @@ module Figlet
           end
           @characters[i] = char
         end
-        break if file.eof?
       end
     end
     

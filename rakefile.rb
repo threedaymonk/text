@@ -44,11 +44,3 @@ Rake::RDocTask.new do |t|
 end
 
 task :default => :test
-
-desc 'Make figlets!'
-task :figlet do
-  $:.unshift File.join(File.dirname(__FILE__), 'lib')
-  require 'text/figlet'
-  figlet = Text::Figlet::Typesetter.new(Text::Figlet::Font.new('test/data/big.flf'))
-  puts figlet[ENV['TEXT'] || 'Hello World']
-end
