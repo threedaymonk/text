@@ -9,7 +9,7 @@ require 'rake/rdoctask'
 
 gemspec = Gem::Specification.new do |s|
   s.name = 'Text'
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.summary ='A collection of text algorithms'
   s.files = FileList['{lib,test}/**/*.*', '*.txt', 'rakefile.rb']
   s.require_path = 'lib'
@@ -22,7 +22,7 @@ end
 
 Rake::GemPackageTask.new(gemspec) { |t| t.package_dir = 'gems' }
 
-Rake::PackageTask.new('text', '1.0.0') do |p|
+Rake::PackageTask.new('Text', '1.1.0') do |p|
   p.need_tar_gz = true
   p.package_files.include('lib/**/*.rb')
 end
