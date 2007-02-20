@@ -9,7 +9,7 @@ require 'rake/rdoctask'
 
 gemspec = Gem::Specification.new do |s|
   s.name = 'Text'
-  s.version = '1.1.1'
+  s.version = '1.1.2'
   s.summary ='A collection of text algorithms'
   s.files = FileList['{lib,test}/**/*.*', 'README.rdoc', 'rakefile.rb']
   s.require_path = 'lib'
