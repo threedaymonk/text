@@ -41,16 +41,28 @@ class LevenshteinTest < Test::Unit::TestCase
 
   def assert_set(name)
     TEST_CASES[name].each do |s, t, x|
+      if defined?(Encoding) && Encoding.default_internal # Change the encoding if in 1.9
+        t.force_encoding(Encoding.default_internal)
+        s.force_encoding(Encoding.default_internal)
+      end
+
       assert_equal x, distance(s, t)
       assert_equal x, distance(t, s)
     end
   end
 
-  def with_kcode(k)
-    old_kcode = $KCODE
-    $KCODE = k
-    yield
-    $KCODE = old_kcode
+  def with_encoding(kcode, encoding)
+    if defined?(Encoding)
+      old_encoding = Encoding.default_internal 
+      Encoding.default_internal = encoding
+      yield
+      Encoding.default_internal = old_encoding
+    else # 1.8 backwards compat
+      old_kcode = $KCODE
+      $KCODE = kcode
+      yield
+      $KCODE = old_kcode
+    end
   end
 
   def test_easy_cases
@@ -66,13 +78,13 @@ class LevenshteinTest < Test::Unit::TestCase
   end
 
   def test_utf8_cases
-    with_kcode('U') do
+    with_encoding('U', 'UTF-8') do
       assert_set(:utf8)
     end
   end
 
   def test_iso_8859_1_cases
-    with_kcode('NONE') do
+    with_encoding('NONE', 'ISO-8859-1') do
       assert_set(:iso_8859_1)
     end
   end
