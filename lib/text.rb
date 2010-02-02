@@ -1,5 +1,4 @@
 require 'text/double_metaphone'
-require 'text/figlet'
 require 'text/levenshtein'
 require 'text/metaphone'
 require 'text/porter_stemming'
@@ -24,4 +23,8 @@ module Text
       raise "Text::Figlet is not compatible with Ruby 1.9 at this time"
     end
   end
+end
+
+if !Text.is_19?
+  require 'text/figlet'
 end
