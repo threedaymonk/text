@@ -27,11 +27,14 @@ module Levenshtein
   # should be performed beforehand.
   #
   def distance(str1, str2)
-    if $KCODE =~ /^U/i
+    encoding = defined?(Encoding) ? str1.encoding.to_s : $KCODE
+
+    if Text.encoding_of(str1) =~ /^U/i
       unpack_rule = 'U*'
     else
       unpack_rule = 'C*'
     end
+
     s = str1.unpack(unpack_rule)
     t = str2.unpack(unpack_rule)
     n = s.length
