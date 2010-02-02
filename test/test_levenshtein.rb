@@ -52,7 +52,7 @@ class LevenshteinTest < Test::Unit::TestCase
   end
 
   def with_encoding(kcode, encoding)
-    if defined?(Encoding)
+    if Text.is_19?
       old_encoding = Encoding.default_internal 
       Encoding.default_internal = encoding
       yield
