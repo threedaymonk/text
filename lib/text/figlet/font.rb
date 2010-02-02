@@ -6,8 +6,10 @@ module Figlet
 
   class Font
     def initialize(filename, load_german = true)
+      Text.raise_19_incompat
+
       file = File.open(filename, 'rb')
-  
+
       header = file.gets.strip.split(/ /)
 
       raise UnknownFontFormat if 'flf2a' != header[0][0, 5]

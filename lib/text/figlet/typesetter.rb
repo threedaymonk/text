@@ -4,6 +4,7 @@ module Figlet
   class Typesetter
 
     def initialize(font, options = nil)
+      Text.raise_19_incompat
       @font = font
       @options = options || {}
       @smush = @options.has_key?(:smush) ? @options[:smush] : true
