@@ -4,6 +4,7 @@ module Figlet
   class Smusher
 
     def initialize(font)
+      Text.raise_19_incompat
       @font = font
     end
 

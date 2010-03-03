@@ -2,7 +2,6 @@
 
 A collection of text algorithms.
 
-
 = Usage
 
   require 'text'
@@ -22,6 +21,15 @@ A collection of text algorithms.
 
   Text::PorterStemming.stem('abatements')       # => 'abat'
 
+= Ruby 1.9 Compatibility
+
+Most parts of the library are now compatible including
+tests. The big exception are the Figlet libraries which
+allow you to quickly do text-rendering in ASCII.
+On 1.9, Figlet isn't loaded and isn't tested. 
+
+Work to integrate in Ruby 1.9 compatibility was done by
+Hampton Catlin (hcatlin)
 
 = License
 

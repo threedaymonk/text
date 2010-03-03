@@ -31,7 +31,7 @@ module Metaphone
       secondary << b if b
       current += c if c
     end
-    primary, secondary = primary.to_s[0, 4], secondary.to_s[0, 4]
+    primary, secondary = primary.join("")[0, 4], secondary.join("")[0, 4]
     return primary, (primary == secondary ? nil : secondary)
   end
 
