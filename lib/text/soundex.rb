@@ -37,21 +37,21 @@ module Soundex
       return soundex_code if soundex_code.size == 4
 
       code = get_code(str[index,1])
-    
+
       if code == "0" then
         last_code = nil
       elsif code == nil then
         return nil
       elsif code != last_code then
         soundex_code += code
-        last_code = code        
-      end 
+        last_code = code
+      end
     end # for
-  
+
     return soundex_code + "000"[0,4-soundex_code.size]
   end
   module_function :soundex_str
-          
+
   def get_code(char)
     char.tr! "AEIOUYWHBPFVCSKGJQXZDTLMNR", "00000000111122222222334556"
   end

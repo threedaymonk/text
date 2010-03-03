@@ -12,12 +12,12 @@ module Text
 
   def self.encoding_of(string)
     if is_19?
-      string.encoding.to_s 
-    else 
+      string.encoding.to_s
+    else
       $KCODE
     end
   end
-  
+
   def self.raise_19_incompat
     if is_19?
       raise "Text::Figlet is not compatible with Ruby 1.9 at this time"

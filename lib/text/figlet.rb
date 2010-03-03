@@ -6,9 +6,9 @@
 # Usage:
 #
 #   big_font = Text::Figlet::Font.new('big.flf')
-#   
+#
 #   figlet = Text::Figlet::Typesetter.new(big_font)
-#   
+#
 #   puts figlet['hello world']
 #
 #

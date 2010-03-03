@@ -8,7 +8,7 @@ class MetaphoneTest < Test::Unit::TestCase
       assert_equal expected_output, Text::Metaphone.metaphone(input)
     end
   end
-  
+
   def test_cases_for_buggy_implementation
     YAML.load(File.read(File.rel('data', 'metaphone_buggy.txt'))).each do |input, expected_output|
       assert_equal expected_output, Text::Metaphone.metaphone(input, :buggy=>true)

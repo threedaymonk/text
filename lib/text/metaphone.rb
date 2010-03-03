@@ -1,23 +1,23 @@
-# 
+#
 # An implementation of the Metaphone phonetic coding system in Ruby.
-# 
+#
 # Metaphone encodes names into a phonetic form such that similar-sounding names
 # have the same or similar Metaphone encodings.
-# 
+#
 # The original system was described by Lawrence Philips in Computer Language
 # Vol. 7 No. 12, December 1990, pp 39-43.
-# 
+#
 # As there are multiple implementations of Metaphone, each with their own
 # quirks, I have based this on my interpretation of the algorithm specification.
 # Even LP's original BASIC implementation appears to contain bugs (specifically
 # with the handling of CC and MB), when compared to his explanation of the
 # algorithm.
-# 
+#
 # I have also compared this implementation with that found in PHP's standard
 # library, which appears to mimic the behaviour of LP's original BASIC
 # implementation. For compatibility, these rules can also be used by passing
 # :buggy=>true to the methods.
-# 
+#
 # Author: Paul Battley (pbattley@gmail.com)
 #
 
@@ -25,10 +25,10 @@ module Text # :nodoc:
 module Metaphone
 
   module Rules # :nodoc:all
-    
+
     # Metaphone rules.  These are simply applied in order.
     #
-    STANDARD = [ 
+    STANDARD = [
       # Regexp, replacement
       [ /([bcdfhjklmnpqrstvwxyz])\1+/,
                          '\1' ],  # Remove doubled consonants except g.
@@ -61,7 +61,7 @@ module Metaphone
       [ /v/,              'F' ],
       [ /(?!^)[aeiou]+/,  ''  ],
     ]
-  
+
     # The rules for the 'buggy' alternate implementation used by PHP etc.
     #
     BUGGY = STANDARD.dup
@@ -79,7 +79,7 @@ module Metaphone
   def metaphone(str, options={})
     return str.strip.split(/\s+/).map { |w| metaphone_word(w, options) }.join(' ')
   end
-  
+
 private
 
   def metaphone_word(w, options={})

@@ -20,7 +20,7 @@ module PorterStemming
     'ousness' => 'ous', 'aliti' => 'al',
     'iviti' => 'ive', 'biliti' => 'ble', 'logi' => 'log'
   }
-  
+
   STEP_3_LIST = {
     'icate' => 'ic', 'ative' => '', 'alize' => 'al', 'iciti' => 'ic',
     'ical' => 'ic', 'ful' => '', 'ness' => ''
@@ -54,7 +54,7 @@ module PorterStemming
                       ance     |
                       ence     |
                       er       |
-                      ic       | 
+                      ic       |
                       able     |
                       ible     |
                       ant      |
@@ -78,30 +78,30 @@ module PorterStemming
   MEQ1 = /^(#{CC})?#{VV}#{CC}(#{VV})?$/o       # [cc]vvcc[vv] is m=1
   MGR1 = /^(#{CC})?#{VV}#{CC}#{VV}#{CC}/o      # [cc]vvccvvcc... is m>1
   VOWEL_IN_STEM   = /^(#{CC})?#{V}/o           # vowel in stem
-  
+
   def self.stem(word)
 
     # make a copy of the given object and convert it to a string.
     word = word.dup.to_str
-    
+
     return word if word.length < 3
-    
+
     # now map initial y to Y so that the patterns never treat it as vowel
     word[0] = 'Y' if word[0] == ?y
-    
+
     # Step 1a
     if word =~ /(ss|i)es$/
       word = $` + $1
-    elsif word =~ /([^s])s$/ 
+    elsif word =~ /([^s])s$/
       word = $` + $1
     end
 
     # Step 1b
     if word =~ /eed$/
-      word.chop! if $` =~ MGR0 
+      word.chop! if $` =~ MGR0
     elsif word =~ /(ed|ing)$/
       stem = $`
-      if stem =~ VOWEL_IN_STEM 
+      if stem =~ VOWEL_IN_STEM
         word = stem
         case word
           when /(at|bl|iz)$/             then word << "e"
@@ -111,9 +111,9 @@ module PorterStemming
       end
     end
 
-    if word =~ /y$/ 
+    if word =~ /y$/
       stem = $`
-      word = stem + "i" if stem =~ VOWEL_IN_STEM 
+      word = stem + "i" if stem =~ VOWEL_IN_STEM
     end
 
     # Step 2
@@ -149,7 +149,7 @@ module PorterStemming
     end
 
     #  Step 5
-    if word =~ /e$/ 
+    if word =~ /e$/
       stem = $`
       if (stem =~ MGR1) ||
           (stem =~ MEQ1 && stem !~ /^#{CC}#{V}[^aeiouwxy]$/o)

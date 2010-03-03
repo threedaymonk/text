@@ -56,7 +56,7 @@ module Metaphone
         end
       when 'B'
         return :P, :P, ('B' == str[pos + 1, 1] ? 2 : 1)
-      when 'Ç' 
+      when 'Ç'
         return :S, :S, 1
       when 'C'
         if pos > 1 &&
@@ -114,7 +114,7 @@ module Metaphone
         else
           if /^ (C|Q|G)$/ =~ str[pos + 1, 2]
             return :K, :K, 3
-          else     
+          else
             return :K, :K, (/^C|K|Q$/ =~ str[pos + 1, 1] && !(['CE','CI'].include?(str[pos + 1, 2])) ? 2 : 1)
           end
         end
@@ -202,7 +202,7 @@ module Metaphone
           end
         else
           current = ('J' == str[pos + 1, 1] ? 2 : 1)
-          
+
           if 0 == pos && 'JOSE' != str[pos, 4]
             return :J, :A, current
           else
@@ -243,7 +243,7 @@ module Metaphone
         end
       when 'N'
         return :N, :N, ('N' == str[pos + 1, 1] ? 2 : 1)
-      when 'Ñ' 
+      when 'Ñ'
         return :N, :N, 1
       when 'P'
         if 'H' == str[pos + 1, 1]
@@ -255,7 +255,7 @@ module Metaphone
         return :K, :K, ('Q' == str[pos + 1, 1] ? 2 : 1)
       when 'R'
         current = ('R' == str[pos + 1, 1] ? 2 : 1)
-        
+
         if last == pos && !slavo_germanic?(str) && 'IE' == str[pos - 2, 2] && /^M(E|A)$/ !~ str[pos - 4, 2]
           return nil, :R, current
         else

@@ -41,7 +41,7 @@ module Figlet
 
     def callback(s, a, b)
       combined = a + b
-      
+
       if old_layout?(1) && a == b
         return true, a
       elsif old_layout?(2) && ('_' == a && symbols[24].include?(b) || '_' == b && symbols[24].include?(a))

@@ -5,7 +5,7 @@ class PorterStemmingTest < Test::Unit::TestCase
   def slurp(*path)
     File.read(File.rel(*path)).split(/\n/)
   end
-  
+
   def test_cases
     cases = slurp('data', 'porter_stemming_input.txt').zip(slurp('data', 'porter_stemming_output.txt'))
     cases.each do |word, expected_output|

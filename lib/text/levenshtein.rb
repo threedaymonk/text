@@ -19,10 +19,10 @@ module Levenshtein
   # as ISO-8859-*.
   #
   # The strings will be treated as UTF-8 if $KCODE is set appropriately (i.e. 'u').
-  # Otherwise, the comparison will be performed byte-by-byte. There is no specific support 
+  # Otherwise, the comparison will be performed byte-by-byte. There is no specific support
   # for Shift-JIS or EUC strings.
   #
-  # When using Unicode text, be aware that this algorithm does not perform normalisation. 
+  # When using Unicode text, be aware that this algorithm does not perform normalisation.
   # If there is a possibility of different normalised forms being used, normalisation
   # should be performed beforehand.
   #
@@ -41,7 +41,7 @@ module Levenshtein
     m = t.length
     return m if (0 == n)
     return n if (0 == m)
-  
+
     d = (0..m).to_a
     x = nil
 

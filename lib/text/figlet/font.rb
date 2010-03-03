@@ -2,7 +2,7 @@ module Text
 module Figlet
 
   class UnknownFontFormat < StandardError
-  end  
+  end
 
   class Font
     def initialize(filename, load_german = true)
@@ -22,38 +22,38 @@ module Figlet
       @comment_count = header.shift.to_i
       @right_to_left = header.shift
       @right_to_left = !@right_to_left.nil? && @right_to_left.to_i == 1
-      
+
       @load_german, @characters = load_german, {}
 
       load_comments file
       load_ascii_characters file
       load_german_characters file
       load_extended_characters file
-      
+
       file.close
     end
 
     def [](char)
       @characters[char]
     end
-    
+
     def has_char?(char)
       @characters.has_key? char
     end
 
     attr_reader :height, :hard_blank, :old_layout
-    
+
     def right_to_left?
       @right_to_left
     end
 
 
     private
-    
+
     def load_comments(file)
       @comment_count.times { file.gets.strip }
     end
-    
+
     def load_ascii_characters(file)
       (32..126).each { |i| @characters[i] = load_char(file) }
     end
@@ -70,7 +70,7 @@ module Figlet
         end
       end
     end
-    
+
     def load_extended_characters(file)
       until file.eof?
         i = file.gets.strip.split(/ /).first
@@ -91,7 +91,7 @@ module Figlet
         end
       end
     end
-    
+
     def load_char(file)
       char = []
       @height.times do
@@ -103,7 +103,7 @@ module Figlet
         line << "\x00"
         char << line
       end
-      return char      
+      return char
     end
 
     def skip_char(file)
