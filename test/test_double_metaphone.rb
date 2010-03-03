@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), 'preamble')
+require "text/double_metaphone"
 
 require 'csv'
 

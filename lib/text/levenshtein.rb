@@ -11,6 +11,8 @@
 # Author: Paul Battley (pbattley@gmail.com)
 #
 
+require "text/util"
+
 module Text # :nodoc:
 module Levenshtein
 

@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), 'preamble')
+require "text/metaphone"
 require 'yaml'
 
 class MetaphoneTest < Test::Unit::TestCase

@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), 'preamble')
+require "text/soundex"
 require 'yaml'
 
 class SoundexTest < Test::Unit::TestCase
