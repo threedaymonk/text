@@ -6,10 +6,6 @@ A collection of text algorithms.
 
   require 'text'
 
-  font = Text::Figlet::Font.new('big.flf')
-  figlet = Text::Figlet::Typesetter.new(font)
-  figlet['Hello World']                         # => '...'
-
   Text::Levenshtein.distance('test', 'test')    # => 0
   Text::Levenshtein.distance('test', 'tent')    # => 1
 
@@ -23,10 +19,7 @@ A collection of text algorithms.
 
 = Ruby 1.9 Compatibility
 
-Most parts of the library are now compatible including
-tests. The big exception are the Figlet libraries which
-allow you to quickly do text-rendering in ASCII.
-On 1.9, Figlet isn't loaded and isn't tested. 
+The library has been tested on Ruby 1.9.
 
 Work to integrate in Ruby 1.9 compatibility was done by
 Hampton Catlin (hcatlin)
