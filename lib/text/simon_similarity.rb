@@ -105,7 +105,7 @@ module Text
 
       matches.map do |key, value|
         [key, (2.0 * value[0]) / value[1]]
-      end.sort do |a, b|
+      end.sort do |a, b| # poor way to sort, just to work on definition, it deserves a better sort algorithm to run while searching in future
         (b[1] <=> a[1])
       end
     end
