@@ -10,6 +10,10 @@
 
 module Text
   module SimonSimilarity
+    def create_index
+      SimonIndex.new
+    end
+
     def compare_strings(str1, str2)
       pairs1 = word_letter_pairs(str1.upcase)
       pairs2 = word_letter_pairs(str2.upcase)
@@ -56,5 +60,54 @@ module Text
     end
 
     extend self
+  end
+
+  class SimonIndex
+    include Text::SimonSimilarity
+
+    attr_reader :index
+
+    def initialize
+      @index = {}
+    end
+
+    def add(word)
+      pairs = word_letter_pairs(word)
+
+      for pair in pairs
+        @index[pair] = [] unless @index[pair]
+        @index[pair] << word unless @index[pair].include?(word)
+      end
+    end
+
+    def search(query)
+      pairs = word_letter_pairs(query)
+      matches = {}
+
+      for pair in pairs
+        words = @index[pair] || []
+
+        for word in words
+          unless matches[word]
+            wpairs = word_letter_pairs(word)
+            matches[word] = [0, pairs.length + wpairs.length, wpairs]
+          end
+
+          matches[word][0] += 1
+          matches[word][2].each_with_index do |wpair, j|
+            if wpair == pair
+              matches[word][2].delete_at(j)
+              break
+            end
+          end
+        end
+      end
+
+      matches.map do |key, value|
+        [key, (2.0 * value[0]) / value[1]]
+      end.sort do |a, b|
+        (b[1] <=> a[1])
+      end
+    end
   end
 end
