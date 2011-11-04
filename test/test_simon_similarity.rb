@@ -7,7 +7,7 @@ class SimonSimilarityTest < Test::Unit::TestCase
   def test_similarity
     word = "Healed"
 
-    assert_in_delta 0.8,  compare_strings(word, "Sealed"),  0.01
+    assert_in_delta 0.8,  compare_strings(word, "SEALED"),  0.01
     assert_in_delta 0.55, compare_strings(word, "Healthy"), 0.01
     assert_in_delta 0.44, compare_strings(word, "Heard"),   0.01
     assert_in_delta 0.40, compare_strings(word, "Herded"),  0.01
@@ -20,16 +20,16 @@ class SimonSimilarityTest < Test::Unit::TestCase
     index.add "Test"
     index.add "Text"
 
-    assert index.index["Te"].include?("Test"), "Index 'Te' not includes Test"
-    assert index.index["es"].include?("Test"), "Index 'es' not includes Test"
-    assert index.index["st"].include?("Test"), "Index 'st' not includes Test"
+    assert index.index["TE"].include?("Test"), "Index 'Te' not includes Test"
+    assert index.index["ES"].include?("Test"), "Index 'es' not includes Test"
+    assert index.index["ST"].include?("Test"), "Index 'st' not includes Test"
 
-    assert index.index["Te"].include?("Text"), "Index 'Te' not includes Text"
-    assert index.index["ex"].include?("Text"), "Index 'ex' not includes Text"
-    assert index.index["xt"].include?("Text"), "Index 'xt' not includes Text"
+    assert index.index["TE"].include?("Text"), "Index 'Te' not includes Text"
+    assert index.index["EX"].include?("Text"), "Index 'ex' not includes Text"
+    assert index.index["XT"].include?("Text"), "Index 'xt' not includes Text"
 
-    assert !index.index["es"].include?("Text"), "Index 'es' includes Text"
-    assert !index.index["ex"].include?("Test"), "Index 'ex' includes Test"
+    assert !index.index["ES"].include?("Text"), "Index 'es' includes Text"
+    assert !index.index["EX"].include?("Test"), "Index 'ex' includes Test"
   end
 
   def test_add_to_index_dont_repeat
@@ -37,12 +37,12 @@ class SimonSimilarityTest < Test::Unit::TestCase
 
     index.add "tete"
 
-    assert_equal 1, index.index["te"].length
+    assert_equal 1, index.index["TE"].length
   end
 
   def test_indexed_search
     index = create_index
-    index.add "Sealed"
+    index.add "SEALED"
     index.add "Healthy"
     index.add "Heard"
     index.add "Herded"
@@ -51,6 +51,6 @@ class SimonSimilarityTest < Test::Unit::TestCase
 
     results = index.search("Healed")
 
-    assert_equal ["Sealed", 0.8], results[0]
+    assert_equal ["SEALED", 0.8], results[0]
   end
 end

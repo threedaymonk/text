@@ -15,8 +15,8 @@ module Text
     end
 
     def compare_strings(str1, str2)
-      pairs1 = word_letter_pairs(str1.upcase)
-      pairs2 = word_letter_pairs(str2.upcase)
+      pairs1 = word_letter_pairs(str1)
+      pairs2 = word_letter_pairs(str2)
 
       intersection = 0
       union = pairs1.length + pairs2.length
@@ -53,7 +53,7 @@ module Text
       pairs = []
 
       0.upto(num_pairs - 1) do |n|
-        pairs << str[n, 2]
+        pairs << str[n, 2].upcase
       end
 
       pairs
