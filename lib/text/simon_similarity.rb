@@ -49,11 +49,12 @@ module Text
     end
 
     def letter_pairs(str)
+      str = str.upcase
       num_pairs = str.length - 1
       pairs = []
 
       0.upto(num_pairs - 1) do |n|
-        pairs << str[n, 2].upcase
+        pairs << str[n, 2]
       end
 
       pairs
