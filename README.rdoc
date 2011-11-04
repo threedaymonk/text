@@ -6,16 +6,26 @@ A collection of text algorithms.
 
   require 'text'
 
-  Text::Levenshtein.distance('test', 'test')    # => 0
-  Text::Levenshtein.distance('test', 'tent')    # => 1
+  Text::Levenshtein.distance('test', 'test')                  # => 0
+  Text::Levenshtein.distance('test', 'tent')                  # => 1
 
-  Text::Metaphone.metaphone('BRIAN')            # => 'BRN'
-  Text::Metaphone.double_metaphone('Coburn')    # => ['KPRN', nil]
-  Text::Metaphone.double_metaphone('Angier')    # => ['ANJ', 'ANJR']
+  Text::Metaphone.metaphone('BRIAN')                          # => 'BRN'
+  Text::Metaphone.double_metaphone('Coburn')                  # => ['KPRN', nil]
+  Text::Metaphone.double_metaphone('Angier')                  # => ['ANJ', 'ANJR']
 
-  Text::Soundex.soundex('Knuth')                # => 'K530'
+  Text::Soundex.soundex('Knuth')                              # => 'K530'
 
-  Text::PorterStemming.stem('abatements')       # => 'abat'
+  Text::PorterStemming.stem('abatements')                     # => 'abat'
+
+  Text::SimonSimilarity.compare_strings('Healed', 'Sealed')   # 0.8
+  Text::SimonSimilarity.compare_strings('Healed', 'Help')     # 0.25
+
+  # simon similarity could also be indexed, giving fast search for multiple possibilities (also ordered by best ranks first)
+
+  simon_index = Text::SimonSimilarity.create_index
+  simon_index.add("Sealed")
+  simon_index.add("Help")
+  simon_index.search("Healed") # [["Sealed", 0.8], ["Help", 0.25]]
 
 = Ruby 1.9 Compatibility
 
