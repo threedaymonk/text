@@ -33,7 +33,7 @@ module Text
 
   private
     def word_letter_pairs(str)
-      str.split(/\s+/).map{ |word| letter_pairs(word) }.flatten(1)
+      str.split(/\s+/).map{ |word| letter_pairs(word) }.flatten
     end
 
     def letter_pairs(str)
