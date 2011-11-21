@@ -1,16 +1,28 @@
 # encoding: utf-8
-#
-# Ruby implementation of the string similarity described by Simon White
-# at: http://www.catalysoft.com/articles/StrikeAMatch.html
-#
-# Based on Java implementation of the article
-#
-# Author: Wilker Lúcio <wilkerlucio@gmail.com>
-#
+# Original author: Wilker Lúcio <wilkerlucio@gmail.com>
 
 require "set"
 
 module Text
+
+  # Ruby implementation of the string similarity described by Simon White
+  # at: http://www.catalysoft.com/articles/StrikeAMatch.html
+  #
+  #                        2 * |pairs(s1) INTERSECT pairs(s2)|
+  #   similarity(s1, s2) = -----------------------------------
+  #                            |pairs(s1)| + |pairs(s2)|
+  #
+  # e.g.
+  #                                             2 * |{FR, NC}|
+  #   similarity(FRANCE, FRENCH) = ---------------------------------------
+  #                                |{FR,RA,AN,NC,CE}| + |{FR,RE,EN,NC,CH}|
+  #
+  #                              = (2 * 2) / (5 + 5)
+  #
+  #                              = 0.4
+  #
+  #   WhiteSimilarity.new.compare("FRANCE", "FRENCH")
+  #
   class WhiteSimilarity
 
     def self.compare(str1, str2)

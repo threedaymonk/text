@@ -2,28 +2,54 @@
 
 A collection of text algorithms.
 
-= Usage
+== Usage
 
   require 'text'
 
-  Text::Levenshtein.distance('test', 'test')    # => 0
-  Text::Levenshtein.distance('test', 'tent')    # => 1
+=== Levenshtein distance
 
-  Text::Metaphone.metaphone('BRIAN')            # => 'BRN'
-  Text::Metaphone.double_metaphone('Coburn')    # => ['KPRN', nil]
-  Text::Metaphone.double_metaphone('Angier')    # => ['ANJ', 'ANJR']
+  Text::Levenshtein.distance('test', 'test')
+  # => 0
+  Text::Levenshtein.distance('test', 'tent')
+  # => 1
 
-  Text::Soundex.soundex('Knuth')                # => 'K530'
+=== Metaphone
 
-  Text::PorterStemming.stem('abatements')       # => 'abat'
+  Text::Metaphone.metaphone('BRIAN')
+  # => 'BRN'
 
-= Ruby 1.9 Compatibility
+  Text::Metaphone.double_metaphone('Coburn')
+  # => ['KPRN', nil]
+  Text::Metaphone.double_metaphone('Angier')
+  # => ['ANJ', 'ANJR']
 
-The library has been tested on Ruby 1.9.
+=== Soundex
 
-Work to integrate in Ruby 1.9 compatibility was done by
-Hampton Catlin (hcatlin)
+  Text::Soundex.soundex('Knuth')
+  # => 'K530'
 
-= License
+=== Porter stemming
+
+  Text::PorterStemming.stem('abatements')  # => 'abat'
+
+=== White similarity
+
+  similarity = Text::SimonSimilarity.new
+  similarity.compare_strings('Healed', 'Sealed')   # 0.8
+  similarity.compare_strings('Healed', 'Help')     # 0.25
+
+Note that some intermediate information is cached on the instance to improve
+performance.
+
+== Ruby version compatibility
+
+The library has been tested on Ruby 1.8.6 to 1.9.3 and on JRuby.
+
+== Thanks
+
+* Hampton Catlin (hcatlin) for Ruby 1.9 compatibility work
+* Wilker Lúcio for the initial implementation of the White algorithm
+
+== License
 
 Same as Ruby.
