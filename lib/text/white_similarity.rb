@@ -11,7 +11,7 @@
 require "set"
 
 module Text
-  class SimonSimilarity
+  class WhiteSimilarity
     def initialize
       @word_letter_pairs = {}
     end
