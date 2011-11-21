@@ -16,7 +16,7 @@ module Text
       @word_letter_pairs = {}
     end
 
-    def compare_strings(str1, str2)
+    def compare(str1, str2)
       pairs1 = word_letter_pairs(str1)
       pairs2 = word_letter_pairs(str2)
 
@@ -41,8 +41,8 @@ module Text
       )
     end
 
-    def self.compare_strings(str1, str2)
-      new.compare_strings(str1, str2)
+    def self.compare(str1, str2)
+      new.compare(str1, str2)
     end
   end
 end
