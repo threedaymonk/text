@@ -11,19 +11,20 @@
 require "set"
 
 module Text
-  module SimonSimilarity
-    def compare_strings(str1, str2)
-      pairs1 = word_letter_pairs(str1.upcase)
-      pairs2 = word_letter_pairs(str2.upcase)
+  class SimonSimilarity
+    def initialize
+      @word_letter_pairs = {}
+    end
 
-      lookup = Set.new(pairs2)
+    def compare_strings(str1, str2)
+      pairs1 = word_letter_pairs(str1)
+      pairs2 = word_letter_pairs(str2)
 
       intersection = 0
       union = pairs1.length + pairs2.length
 
       pairs1.each do |pair|
-        if lookup.include?(pair)
-          lookup.delete pair
+        if pairs2.include?(pair)
           intersection += 1
         end
       end
@@ -33,13 +34,15 @@ module Text
 
   private
     def word_letter_pairs(str)
-      str.split(/\s+/).map{ |word| letter_pairs(word) }.flatten
+      @word_letter_pairs[str] ||= Set.new(
+        str.upcase.split(/\s+/).map{ |word|
+          (0 ... (word.length - 1)).map { |i| str[i, 2] }
+        }.flatten
+      )
     end
 
-    def letter_pairs(str)
-      (0 ... (str.length - 1)).map { |i| str[i, 2] }
+    def self.compare_strings(str1, str2)
+      new.compare_strings(str1, str2)
     end
-
-    extend self
   end
 end
