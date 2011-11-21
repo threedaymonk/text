@@ -12,6 +12,11 @@ require "set"
 
 module Text
   class WhiteSimilarity
+
+    def self.compare(str1, str2)
+      new.compare(str1, str2)
+    end
+
     def initialize
       @word_letter_pairs = {}
     end
@@ -35,10 +40,6 @@ module Text
           (0 ... (word.length - 1)).map { |i| str[i, 2] }
         }.flatten
       )
-    end
-
-    def self.compare(str1, str2)
-      new.compare(str1, str2)
     end
   end
 end
