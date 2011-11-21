@@ -30,29 +30,13 @@ module Text
       (2.0 * intersection) / union
     end
 
-    private
-
+  private
     def word_letter_pairs(str)
-      pairs = []
-      words = str.split(/\s+/)
-
-      words.each do |word|
-        pairs_in_word = letter_pairs(word)
-        pairs.concat(pairs_in_word)
-      end
-
-      pairs
+      str.split(/\s+/).map{ |word| letter_pairs(word) }.flatten(1)
     end
 
     def letter_pairs(str)
-      num_pairs = str.length - 1
-      pairs = []
-
-      0.upto(num_pairs - 1) do |n|
-        pairs << str[n, 2]
-      end
-
-      pairs
+      (0 ... (str.length - 1)).map { |i| str[i, 2] }
     end
 
     extend self
