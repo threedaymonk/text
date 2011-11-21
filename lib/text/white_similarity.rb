@@ -21,19 +21,19 @@ module Text
   #
   #                              = 0.4
   #
-  #   WhiteSimilarity.new.compare("FRANCE", "FRENCH")
+  #   WhiteSimilarity.new.similarity("FRANCE", "FRENCH")
   #
   class WhiteSimilarity
 
-    def self.compare(str1, str2)
-      new.compare(str1, str2)
+    def self.similarity(str1, str2)
+      new.similarity(str1, str2)
     end
 
     def initialize
       @word_letter_pairs = {}
     end
 
-    def compare(str1, str2)
+    def similarity(str1, str2)
       pairs1 = word_letter_pairs(str1)
       pairs2 = word_letter_pairs(str2)
 

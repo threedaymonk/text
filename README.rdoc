@@ -34,9 +34,9 @@ A collection of text algorithms.
 
 === White similarity
 
-  similarity = Text::SimonSimilarity.new
-  similarity.compare_strings('Healed', 'Sealed')   # 0.8
-  similarity.compare_strings('Healed', 'Help')     # 0.25
+  white = Text::WhiteSimilarity.new
+  white.similarity('Healed', 'Sealed')   # 0.8
+  white.similarity('Healed', 'Help')     # 0.25
 
 Note that some intermediate information is cached on the instance to improve
 performance.
