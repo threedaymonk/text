@@ -20,14 +20,10 @@ module Text
       pairs1 = word_letter_pairs(str1)
       pairs2 = word_letter_pairs(str2)
 
-      intersection = 0
+      intersection = pairs1.inject(0) { |acc, pair|
+        pairs2.include?(pair) ? acc + 1 : acc
+      }
       union = pairs1.length + pairs2.length
-
-      pairs1.each do |pair|
-        if pairs2.include?(pair)
-          intersection += 1
-        end
-      end
 
       (2.0 * intersection) / union
     end
