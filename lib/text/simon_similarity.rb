@@ -8,22 +8,23 @@
 # Author: Wilker Lúcio <wilkerlucio@gmail.com>
 #
 
+require "set"
+
 module Text
   module SimonSimilarity
     def compare_strings(str1, str2)
       pairs1 = word_letter_pairs(str1.upcase)
       pairs2 = word_letter_pairs(str2.upcase)
 
+      lookup = Set.new(pairs2)
+
       intersection = 0
       union = pairs1.length + pairs2.length
 
-      pairs1.each do |pair1|
-        pairs2.each_with_index do |pair2, j|
-          if pair1 == pair2
-            intersection += 1
-            pairs2.delete_at(j)
-            break
-          end
+      pairs1.each do |pair|
+        if lookup.include?(pair)
+          lookup.delete pair
+          intersection += 1
         end
       end
 
