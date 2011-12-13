@@ -34,23 +34,24 @@ module Text
     end
 
     def similarity(str1, str2)
-      pairs1 = word_letter_pairs(str1)
-      pairs2 = word_letter_pairs(str2)
+      pairs1, length1 = word_letter_pairs(str1)
+      pairs2, length2 = word_letter_pairs(str2)
 
       intersection = pairs1.inject(0) { |acc, pair|
         pairs2.include?(pair) ? acc + 1 : acc
       }
-      union = pairs1.length + pairs2.length
+      union = length1 + length2
 
       (2.0 * intersection) / union
     end
 
   private
     def word_letter_pairs(str)
-      @word_letter_pairs[str] ||= Set.new(
-        str.upcase.split(/\s+/).map{ |word|
-          (0 ... (word.length - 1)).map { |i| str[i, 2] }
+      @word_letter_pairs[str] ||= (
+        pairs = str.upcase.split(/\s+/).map{ |word|
+          (0 ... (word.length - 1)).map { |i| word[i, 2] }
         }.flatten
+        [Set.new(pairs), pairs.length]
       )
     end
   end
