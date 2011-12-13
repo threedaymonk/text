@@ -1,8 +1,6 @@
 # encoding: utf-8
 # Original author: Wilker Lúcio <wilkerlucio@gmail.com>
 
-require "set"
-
 module Text
 
   # Ruby implementation of the string similarity described by Simon White
@@ -37,21 +35,25 @@ module Text
       pairs1 = word_letter_pairs(str1)
       pairs2 = word_letter_pairs(str2)
 
+      union = pairs1.length + pairs2.length
+
+      pairs1.uniq!
+      pairs2.uniq!
+
       intersection = pairs1.inject(0) { |acc, pair|
         pairs2.include?(pair) ? acc + 1 : acc
       }
-      union = pairs1.length + pairs2.length
 
       (2.0 * intersection) / union
     end
 
   private
+
     def word_letter_pairs(str)
-      @word_letter_pairs[str] ||= Set.new(
-        str.upcase.split(/\s+/).map{ |word|
-          (0 ... (word.length - 1)).map { |i| str[i, 2] }
-        }.flatten
-      )
+      @word_letter_pairs[str] ||= str.upcase.split(/\s+/).map { |word|
+        (0 ... (word.length - 1)).map { |i| word[i, 2] }
+      }.flatten
     end
+
   end
 end
