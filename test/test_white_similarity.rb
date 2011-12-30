@@ -27,12 +27,24 @@ class WhiteSimilarityTest < Test::Unit::TestCase
     assert_in_delta 0.0,  white.similarity(word, "Sold"),    0.01
   end
 
+  def test_cache_frozen
+    white = Text::WhiteSimilarity.new
+    word = "Healed"
+    assert_equal white.similarity(word, word), white.similarity(word, word)
+    assert white.instance_variable_get(:@word_letter_pairs)[word].frozen?
+  end
+
   def test_similarity_with_examples_from_article
     assert_in_delta 0.4,  Text::WhiteSimilarity.similarity("GGGGG", "GG"),                           0.01
     assert_in_delta 0.56, Text::WhiteSimilarity.similarity("REPUBLIC OF FRANCE", "FRANCE"),          0.01
     assert_in_delta 0.0,  Text::WhiteSimilarity.similarity("FRANCE", "QUEBEC"),                      0.01
     assert_in_delta 0.72, Text::WhiteSimilarity.similarity("FRENCH REPUBLIC", "REPUBLIC OF FRANCE"), 0.01
     assert_in_delta 0.61, Text::WhiteSimilarity.similarity("FRENCH REPUBLIC", "REPUBLIC OF CUBA"),   0.01
+  end
+
+  def test_similarity_with_equal_strings
+    assert_equal 1.0, Text::WhiteSimilarity.similarity("aaaaa", "aaaaa")
+    assert_equal 1.0, Text::WhiteSimilarity.similarity("REPUBLIC OF CUBA", "REPUBLIC OF CUBA")
   end
 
 end
