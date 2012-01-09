@@ -27,11 +27,10 @@ class WhiteSimilarityTest < Test::Unit::TestCase
     assert_in_delta 0.0,  white.similarity(word, "Sold"),    0.01
   end
 
-  def test_cache_frozen
+  def test_should_not_clobber_cached_values
     white = Text::WhiteSimilarity.new
     word = "Healed"
     assert_equal white.similarity(word, word), white.similarity(word, word)
-    assert white.instance_variable_get(:@word_letter_pairs)[word].frozen?
   end
 
   def test_similarity_with_examples_from_article
