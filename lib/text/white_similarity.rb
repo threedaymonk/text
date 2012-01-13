@@ -40,7 +40,7 @@ module Text
       union = pairs1.count + pairs2.count
 
       intersection = 0
-      pairs1.each_with_index do |pair1|
+      pairs1.each do |pair1|
         if index = pairs2.index(pair1)
           intersection += 1
           pairs2.delete_at(index)
