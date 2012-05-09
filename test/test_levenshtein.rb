@@ -37,6 +37,16 @@ class LevenshteinTest < Test::Unit::TestCase
     :edge => [
       ['a', 'a', 0],
       ['0123456789', 'abcdefghijklmnopqrstuvwxyz', 26]
+    ],
+    :similarity => [
+      ["The quick brown fox jumps over the lazy dog","The quick brown fox leaps over the lazy cat", 6, 0.8604651162790697 ],
+      [
+        "Am interested in your Item above,Please contact me at fake_email_address@example.com for more details and its present condition. Brian.",
+        "Am interested in your Item above,Please contact me at patricia.doe@example.com for more details and its present condition. Patricia.",
+        19,
+        0.8592592592592593
+      ]
+      
     ]
   }
 
@@ -87,6 +97,16 @@ class LevenshteinTest < Test::Unit::TestCase
   def test_iso_8859_1_cases
     with_encoding('NONE', 'ISO-8859-1') do
       assert_set(:iso_8859_1)
+    end
+  end
+  
+  def test_similarity
+    TEST_CASES[:similarity].each do |str1, str2, dist, sim|
+
+      assert_equal dist, distance(str1, str2)
+      assert_equal dist, distance(str2, str1)
+      assert_equal sim, similarity(str1, str2)
+      assert_equal sim, similarity(str2, str1)
     end
   end
 
