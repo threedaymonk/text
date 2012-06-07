@@ -41,15 +41,15 @@ module Levenshtein
     s, t = [str1, str2].map(&prepare)
     n = s.length
     m = t.length
-    return m if (0 == n)
-    return n if (0 == m)
+    return m if n.zero?
+    return n if m.zero?
 
     d = (0..m).to_a
     x = nil
 
-    (0...n).each do |i|
-      e = i+1
-      (0...m).each do |j|
+    n.times do |i|
+      e = i + 1
+      m.times do |j|
         cost = (s[i] == t[j]) ? 0 : 1
         x = [
           d[j+1] + 1, # insertion
