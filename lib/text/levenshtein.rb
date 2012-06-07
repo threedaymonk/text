@@ -11,34 +11,34 @@
 # Author: Paul Battley (pbattley@gmail.com)
 #
 
-require "text/util"
-
 module Text # :nodoc:
 module Levenshtein
 
   # Calculate the Levenshtein distance between two strings +str1+ and +str2+.
-  # +str1+ and +str2+ should be ASCII, UTF-8, or a one-byte-per character encoding such
-  # as ISO-8859-*.
   #
-  # The strings will be treated as UTF-8 if $KCODE is set appropriately (i.e. 'u').
-  # Otherwise, the comparison will be performed byte-by-byte. There is no specific support
-  # for Shift-JIS or EUC strings.
   #
-  # When using Unicode text, be aware that this algorithm does not perform normalisation.
-  # If there is a possibility of different normalised forms being used, normalisation
-  # should be performed beforehand.
+  # In Ruby 1.8, +str1+ and +str2+ should be ASCII, UTF-8, or a one-byte-per
+  # character encoding such as ISO-8859-*. They will be treated as UTF-8 if
+  # $KCODE is set appropriately (i.e. 'u').  Otherwise, the comparison will be
+  # performed byte-by-byte. There is no specific support for Shift-JIS or EUC
+  # strings.
+  #
+  # In Ruby 1.9+, the strings will be processed as UTF-8.
+  #
+  # When using Unicode text, be aware that this algorithm does not perform
+  # normalisation.  If there is a possibility of different normalised forms
+  # being used, normalisation should be performed beforehand.
   #
   def distance(str1, str2)
-    encoding = defined?(Encoding) ? str1.encoding.to_s : $KCODE
+    prepare =
+      if "ruby".respond_to?(:encoding)
+        lambda { |str| str.encode(Encoding::UTF_8).unpack("U*") }
+      else
+        rule = $KCODE.match(/^U/i) ? "U*" : "C*"
+        lambda { |str| str.unpack(rule) }
+      end
 
-    if Text.encoding_of(str1) =~ /^U/i
-      unpack_rule = 'U*'
-    else
-      unpack_rule = 'C*'
-    end
-
-    s = str1.unpack(unpack_rule)
-    t = str2.unpack(unpack_rule)
+    s, t = [str1, str2].map(&prepare)
     n = s.length
     m = t.length
     return m if (0 == n)

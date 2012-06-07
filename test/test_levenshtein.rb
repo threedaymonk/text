@@ -53,7 +53,7 @@ class LevenshteinTest < Test::Unit::TestCase
   end
 
   def with_encoding(kcode, encoding)
-    if Text.is_19?
+    if "ruby".respond_to?(:encoding)
       old_encoding = Encoding.default_internal
       Encoding.default_internal = encoding
       yield
