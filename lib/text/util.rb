@@ -10,10 +10,4 @@ module Text
       $KCODE
     end
   end
-
-  def self.raise_19_incompat
-    if is_19?
-      raise "Text::Figlet is not compatible with Ruby 1.9 at this time"
-    end
-  end
 end
