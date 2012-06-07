@@ -37,7 +37,7 @@ module Text
       pairs1 = word_letter_pairs(str1)
       pairs2 = word_letter_pairs(str2).dup
 
-      union = pairs1.count + pairs2.count
+      union = pairs1.length + pairs2.length
 
       intersection = 0
       pairs1.each do |pair1|
