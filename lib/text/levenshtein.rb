@@ -64,6 +64,14 @@ module Levenshtein
 
     return x
   end
+  
+  # Calculate the similarity percentage based on the results of the distance algorithm.
+  def similarity(str1, str2)
+    dist = self.distance(str1,str2)
+    size = [str1.length,str2.length].max
+
+    return (size.to_f - dist.to_f) / size.to_f
+  end
 
   extend self
 end
