@@ -1,4 +1,3 @@
-require 'text/util'
 require 'text/double_metaphone'
 require 'text/levenshtein'
 require 'text/metaphone'
