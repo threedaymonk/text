@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'preamble')
+require "preamble"
 require "text/porter_stemming"
 
 class PorterStemmingTest < Test::Unit::TestCase

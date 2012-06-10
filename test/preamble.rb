@@ -1,6 +1,7 @@
 require 'test/unit'
 
-$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+lib = File.expand_path("../../lib")
+$:.unshift lib unless $:.include?(lib)
 
 class File
   def self.rel(*path)
