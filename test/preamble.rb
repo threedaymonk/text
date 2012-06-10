@@ -3,8 +3,12 @@ require 'test/unit'
 lib = File.expand_path("../../lib")
 $:.unshift lib unless $:.include?(lib)
 
-class File
-  def self.rel(*path)
-    join(dirname(__FILE__), *path)
+class Test::Unit::TestCase
+  def data_file_path(*path)
+    File.join(File.dirname(__FILE__), "data", *path)
+  end
+
+  def data_file(*path)
+    File.read(data_file_path(*path))
   end
 end
