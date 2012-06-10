@@ -5,13 +5,13 @@ require 'yaml'
 class MetaphoneTest < Test::Unit::TestCase
 
   def test_cases
-    YAML.load(File.read(File.rel('data', 'metaphone.txt'))).each do |input, expected_output|
+    YAML.load(data_file('metaphone.txt')).each do |input, expected_output|
       assert_equal expected_output, Text::Metaphone.metaphone(input)
     end
   end
 
   def test_cases_for_buggy_implementation
-    YAML.load(File.read(File.rel('data', 'metaphone_buggy.txt'))).each do |input, expected_output|
+    YAML.load(data_file('metaphone_buggy.txt')).each do |input, expected_output|
       assert_equal expected_output, Text::Metaphone.metaphone(input, :buggy=>true)
     end
   end
