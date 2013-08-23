@@ -52,4 +52,4 @@ The library has been tested on Ruby 1.8.6 to 1.9.3 and on JRuby.
 
 == License
 
-Same as Ruby.
+MIT. See COPYING.txt for details.

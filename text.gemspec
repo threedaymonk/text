@@ -13,4 +13,5 @@ gemspec = Gem::Specification.new do |s|
   s.homepage          = 'http://github.com/threedaymonk/text'
   s.authors           = ['Paul Battley', 'Michael Neumann', 'Tim Fletcher']
   s.email             = "pbattley@gmail.com"
+  s.license           = "MIT"
 end
