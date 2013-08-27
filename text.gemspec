@@ -14,4 +14,5 @@ gemspec = Gem::Specification.new do |s|
   s.authors           = ['Paul Battley', 'Michael Neumann', 'Tim Fletcher']
   s.email             = "pbattley@gmail.com"
   s.license           = "MIT"
+  s.add_development_dependency "rake"
 end
