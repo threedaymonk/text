@@ -1,4 +1,4 @@
-require "preamble"
+require "test_helper"
 require "text/porter_stemming"
 
 class PorterStemmingTest < Test::Unit::TestCase

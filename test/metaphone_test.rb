@@ -1,4 +1,4 @@
-require "preamble"
+require "test_helper"
 require "text/metaphone"
 require 'yaml'
 

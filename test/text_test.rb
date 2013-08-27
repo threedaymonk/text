@@ -1,4 +1,4 @@
-require 'preamble'
+require 'test_helper'
 
 class TextTest < Test::Unit::TestCase
   def test_should_load_all_components

@@ -1,4 +1,4 @@
-require "preamble"
+require "test_helper"
 require "text/soundex"
 require 'yaml'
 
