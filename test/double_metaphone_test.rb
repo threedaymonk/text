@@ -1,4 +1,4 @@
-require "preamble"
+require "test_helper"
 require "text/double_metaphone"
 
 require 'csv'
