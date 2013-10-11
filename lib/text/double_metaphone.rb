@@ -5,7 +5,7 @@
 #
 # Based on Stephen Woodbridge's PHP version - http://swoodbridge.com/DoubleMetaPhone/
 #
-# Author: Tim Fletcher (twoggle@gmail.com)
+# Author: Tim Fletcher (mail@tfletcher.com)
 #
 
 module Text # :nodoc:
