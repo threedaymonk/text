@@ -16,6 +16,10 @@ module Levenshtein
 
   # Calculate the Levenshtein distance between two strings +str1+ and +str2+.
   #
+  # Optional argument max_distance, makes the algorithm to stop if Levenshtein
+  # distance is greater or equal to it. Increase performance avoiding full
+  # distance calculations in case you only need to compare strings
+  # distances with a reference value.
   #
   # In Ruby 1.8, +str1+ and +str2+ should be ASCII, UTF-8, or a one-byte-per
   # character encoding such as ISO-8859-*. They will be treated as UTF-8 if
@@ -29,7 +33,7 @@ module Levenshtein
   # normalisation.  If there is a possibility of different normalised forms
   # being used, normalisation should be performed beforehand.
   #
-  def distance(str1, str2)
+  def distance(str1, str2, max_distance = -1)
     prepare =
       if "ruby".respond_to?(:encoding)
         lambda { |str| str.encode(Encoding::UTF_8).unpack("U*") }
@@ -44,6 +48,9 @@ module Levenshtein
     return m if n.zero?
     return n if m.zero?
 
+    # if the length difference is already greater than the max_distance, then there is nothing else to check
+    return max_distance if max_distance >= 0 && (n - m).abs >= max_distance
+
     d = (0..m).to_a
     x = nil
 
@@ -56,6 +63,11 @@ module Levenshtein
           e + 1,      # deletion
           d[j] + cost # substitution
         ].min
+
+        # if the diagonal value is already greater than the max_distance
+        # then we can safety return as diagonal will never go lower again
+        return max_distance if max_distance >= 0 && x >= max_distance
+
         d[j] = e
         e = x
       end
