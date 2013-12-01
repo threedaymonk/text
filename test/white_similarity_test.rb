@@ -1,4 +1,4 @@
-require "test_helper"
+require_relative "./test_helper"
 require "text/white_similarity"
 
 class WhiteSimilarityTest < Test::Unit::TestCase

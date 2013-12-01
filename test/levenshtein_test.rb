@@ -1,6 +1,6 @@
 # coding: UTF-8
 
-require "test_helper"
+require_relative "./test_helper"
 require "text/levenshtein"
 
 class LevenshteinTest < Test::Unit::TestCase
