@@ -17,28 +17,13 @@ module Levenshtein
   # Calculate the Levenshtein distance between two strings +str1+ and +str2+.
   #
   #
-  # In Ruby 1.8, +str1+ and +str2+ should be ASCII, UTF-8, or a one-byte-per
-  # character encoding such as ISO-8859-*. They will be treated as UTF-8 if
-  # $KCODE is set appropriately (i.e. 'u').  Otherwise, the comparison will be
-  # performed byte-by-byte. There is no specific support for Shift-JIS or EUC
-  # strings.
-  #
-  # In Ruby 1.9+, the strings will be processed as UTF-8.
-  #
-  # When using Unicode text, be aware that this algorithm does not perform
-  # normalisation.  If there is a possibility of different normalised forms
-  # being used, normalisation should be performed beforehand.
+  # The distance is calculated in terms of Unicode codepoints. Be aware that
+  # this algorithm does not perform normalisation: if there is a possibility
+  # of different normalised forms being used, normalisation should be performed
+  # beforehand.
   #
   def distance(str1, str2)
-    prepare =
-      if "ruby".respond_to?(:encoding)
-        lambda { |str| str.encode(Encoding::UTF_8).unpack("U*") }
-      else
-        rule = $KCODE.match(/^U/i) ? "U*" : "C*"
-        lambda { |str| str.unpack(rule) }
-      end
-
-    s, t = [str1, str2].map(&prepare)
+    s, t = [str1, str2].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
     n = s.length
     m = t.length
     return m if n.zero?

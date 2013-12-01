@@ -42,7 +42,7 @@ class LevenshteinTest < Test::Unit::TestCase
 
   def assert_set(name)
     TEST_CASES[name].each do |s, t, x|
-      if defined?(Encoding) && Encoding.default_internal # Change the encoding if in 1.9
+      if Encoding.default_internal
         t.force_encoding(Encoding.default_internal)
         s.force_encoding(Encoding.default_internal)
       end
@@ -53,17 +53,10 @@ class LevenshteinTest < Test::Unit::TestCase
   end
 
   def with_encoding(kcode, encoding)
-    if "ruby".respond_to?(:encoding)
-      old_encoding = Encoding.default_internal
-      Encoding.default_internal = encoding
-      yield
-      Encoding.default_internal = old_encoding
-    else # 1.8 backwards compat
-      old_kcode = $KCODE
-      $KCODE = kcode
-      yield
-      $KCODE = old_kcode
-    end
+    old_encoding = Encoding.default_internal
+    Encoding.default_internal = encoding
+    yield
+    Encoding.default_internal = old_encoding
   end
 
   def test_easy_cases
