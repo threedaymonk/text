@@ -1,86 +1,43 @@
+# coding: UTF-8
+
 require "test_helper"
 require "text/levenshtein"
 
 class LevenshteinTest < Test::Unit::TestCase
-
   include Text::Levenshtein
 
-  TEST_CASES = {
-    :easy => [
-      ['test', 'test', 0],
-      ['test', 'tent', 1],
-      ['gumbo', 'gambol', 2],
-      ['kitten', 'sitting', 3]
-    ],
-    :empty => [
-      ['foo', '', 3],
-      ['', '', 0],
-      ['a', '', 1]
-    ],
-    :utf8 => [
-      ["f\303\266o", 'foo', 1],
-      ["fran\303\247ais", 'francais', 1],
-      ["fran\303\247ais", "fran\303\246ais", 1],
-      [
-        "\347\247\201\343\201\256\345\220\215\345\211\215\343\201\257"<<
-        "\343\203\235\343\203\274\343\203\253\343\201\247\343\201\231",
-        "\343\201\274\343\201\217\343\201\256\345\220\215\345\211\215\343\201"<<
-        "\257\343\203\235\343\203\274\343\203\253\343\201\247\343\201\231",
-        2
-      ] # Japanese
-    ],
-    :iso_8859_1 => [
-      ["f\366o", 'foo', 1],
-      ["fran\347ais", 'francais', 1],
-      ["fran\347ais", "fran\346ais", 1]
-    ],
-    :edge => [
-      ['a', 'a', 0],
-      ['0123456789', 'abcdefghijklmnopqrstuvwxyz', 26]
-    ]
-  }
-
-  def assert_set(name)
-    TEST_CASES[name].each do |s, t, x|
-      if Encoding.default_internal
-        t.force_encoding(Encoding.default_internal)
-        s.force_encoding(Encoding.default_internal)
-      end
-
-      assert_equal x, distance(s, t)
-      assert_equal x, distance(t, s)
-    end
+  def iso_8859_1(s)
+    s.force_encoding(Encoding::ISO_8859_1)
   end
 
-  def with_encoding(kcode, encoding)
-    old_encoding = Encoding.default_internal
-    Encoding.default_internal = encoding
-    yield
-    Encoding.default_internal = old_encoding
+  def test_should_calculate_lengths_for_basic_examples
+    assert_equal 0, distance("test", "test")
+    assert_equal 1, distance("test", "tent")
+    assert_equal 2, distance("gumbo", "gambol")
+    assert_equal 3, distance("kitten", "sitting")
   end
 
-  def test_easy_cases
-    assert_set(:easy)
+  def test_should_give_full_distances_for_empty_strings
+    assert_equal 3, distance("foo", "")
+    assert_equal 0, distance("", "")
+    assert_equal 1, distance("a", "")
   end
 
-  def test_empty_cases
-    assert_set(:empty)
+  def test_should_treat_utf_8_codepoints_as_one_element
+    assert_equal 1, distance("föo", "foo")
+    assert_equal 1, distance("français", "francais")
+    assert_equal 1, distance("français", "franæais")
+    assert_equal 2, distance("私の名前はポールです", "ぼくの名前はポールです")
   end
 
-  def test_edge_cases
-    assert_set(:edge)
+  def test_should_process_single_byte_encodings
+    assert_equal 1, distance(iso_8859_1("f\xF6o"), iso_8859_1("foo"))
+    assert_equal 1, distance(iso_8859_1("fran\xE7ais"), iso_8859_1("francais"))
+    assert_equal 1, distance(iso_8859_1("fran\xE7ais"), iso_8859_1("fran\xE6ais"))
   end
 
-  def test_utf8_cases
-    with_encoding('U', 'UTF-8') do
-      assert_set(:utf8)
-    end
+  def test_should_process_edge_cases_as_expected
+    assert_equal 0, distance("a", "a")
+    assert_equal 26, distance("0123456789", "abcdefghijklmnopqrstuvwxyz")
   end
-
-  def test_iso_8859_1_cases
-    with_encoding('NONE', 'ISO-8859-1') do
-      assert_set(:iso_8859_1)
-    end
-  end
-
 end
