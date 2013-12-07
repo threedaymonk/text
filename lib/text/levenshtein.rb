@@ -50,17 +50,17 @@ module Levenshtein
           d[j] + cost # substitution
         ].min
 
-        # if the diagonal value is already greater than the max_distance
-        # then we can safety return as diagonal will never go lower again
-        return max_distance if max_distance >= 0 && x >= max_distance
-
         d[j] = e
         e = x
       end
       d[m] = x
+
+      # if the diagonal value is already greater than the max_distance
+      # then we can safety return as diagonal will never go lower again
+      break if max_distance >= 0 && d[i+1] >= max_distance
     end
 
-    return x
+    return max_distance >= 0 && x > max_distance ? max_distance : x
   end
 
   extend self
