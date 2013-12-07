@@ -16,18 +16,28 @@ module Levenshtein
 
   # Calculate the Levenshtein distance between two strings +str1+ and +str2+.
   #
+  # Optional argument max_distance, makes the algorithm to stop if Levenshtein
+  # distance is greater or equal to it. Increase performance avoiding full
+  # distance calculations in case you only need to compare strings
+  # distances with a reference value.
   #
   # The distance is calculated in terms of Unicode codepoints. Be aware that
   # this algorithm does not perform normalisation: if there is a possibility
   # of different normalised forms being used, normalisation should be performed
   # beforehand.
   #
-  def distance(str1, str2)
+  def distance(str1, str2, max_distance = nil)
     s, t = [str1, str2].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
     n = s.length
     m = t.length
     return m if n.zero?
     return n if m.zero?
+
+    # if the length difference is already greater than the max_distance, then
+    # there is nothing else to check
+    if max_distance && (n - m).abs >= max_distance
+      return max_distance
+    end
 
     d = (0..m).to_a
     x = nil
@@ -41,13 +51,22 @@ module Levenshtein
           e + 1,      # deletion
           d[j] + cost # substitution
         ].min
+
         d[j] = e
         e = x
       end
       d[m] = x
+
+      # if the diagonal value is already greater than the max_distance
+      # then we can safety return as diagonal will never go lower again
+      break if max_distance && d[i+1] >= max_distance
     end
 
-    return x
+    if max_distance && x > max_distance
+      return max_distance
+    else
+      return x
+    end
   end
 
   extend self
