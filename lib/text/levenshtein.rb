@@ -26,7 +26,7 @@ module Levenshtein
   # of different normalised forms being used, normalisation should be performed
   # beforehand.
   #
-  def distance(str1, str2, max_distance = -1)
+  def distance(str1, str2, max_distance = nil)
     s, t = [str1, str2].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
     n = s.length
     m = t.length
@@ -35,7 +35,9 @@ module Levenshtein
 
     # if the length difference is already greater than the max_distance, then
     # there is nothing else to check
-    return max_distance if max_distance >= 0 && (n - m).abs >= max_distance
+    if max_distance && (n - m).abs >= max_distance
+      return max_distance
+    end
 
     d = (0..m).to_a
     x = nil
@@ -57,10 +59,14 @@ module Levenshtein
 
       # if the diagonal value is already greater than the max_distance
       # then we can safety return as diagonal will never go lower again
-      break if max_distance >= 0 && d[i+1] >= max_distance
+      break if max_distance && d[i+1] >= max_distance
     end
 
-    return max_distance >= 0 && x > max_distance ? max_distance : x
+    if max_distance && x > max_distance
+      return max_distance
+    else
+      return x
+    end
   end
 
   extend self
