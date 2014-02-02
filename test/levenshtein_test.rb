@@ -59,4 +59,10 @@ class LevenshteinTest < Test::Unit::TestCase
     assert_equal 1, distance("gumbo", "gambol", 1)
     assert_equal 2, distance("kitten", "sitting", 2)
   end
+
+  def test_should_return_maximum_distance_for_strings_with_additions_only
+    assert_equal 1, distance("1234", "01234")
+    assert_equal 1, distance("1234", "01234", 2)
+    assert_equal 1, distance("1234", "01234", 3)
+  end
 end
