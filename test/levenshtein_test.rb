@@ -40,4 +40,29 @@ class LevenshteinTest < Test::Unit::TestCase
     assert_equal 0, distance("a", "a")
     assert_equal 26, distance("0123456789", "abcdefghijklmnopqrstuvwxyz")
   end
+
+  def test_should_return_calculated_distance_when_less_than_maximum
+    assert_equal 0, distance("test", "test", 1)
+    assert_equal 1, distance("test", "tent", 2)
+    assert_equal 2, distance("gumbo", "gambol", 3)
+    assert_equal 3, distance("kitten", "sitting", 4)
+  end
+
+  def test_should_return_calculated_distance_when_same_as_maximum
+    assert_equal 0, distance("test", "test", 0)
+    assert_equal 1, distance("test", "tent", 1)
+    assert_equal 2, distance("gumbo", "gambol", 2)
+    assert_equal 3, distance("kitten", "sitting", 3)
+  end
+
+  def test_should_return_specified_maximum_if_distance_is_more
+    assert_equal 1, distance("gumbo", "gambol", 1)
+    assert_equal 2, distance("kitten", "sitting", 2)
+  end
+
+  def test_should_return_maximum_distance_for_strings_with_additions_only
+    assert_equal 1, distance("1234", "01234")
+    assert_equal 1, distance("1234", "01234", 2)
+    assert_equal 1, distance("1234", "01234", 3)
+  end
 end
