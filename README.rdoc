@@ -12,10 +12,6 @@ A collection of text algorithms.
   # => 0
   Text::Levenshtein.distance('test', 'tent')
   # => 1
-  Text::Levenshtein.distance('test', 'testing')
-  # => 3
-  Text::Levenshtein.distance('test', 'testing', 2)
-  # => 2
 
 === Metaphone
 
