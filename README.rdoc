@@ -16,7 +16,7 @@ A collection of text algorithms.
   # => 3
   Text::Levenshtein.distance('test', 'testing', 2)
   # => 2
-  
+
 === Metaphone
 
   Text::Metaphone.metaphone('BRIAN')

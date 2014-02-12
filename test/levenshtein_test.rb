@@ -48,6 +48,13 @@ class LevenshteinTest < Test::Unit::TestCase
     assert_equal 3, distance("kitten", "sitting", 4)
   end
 
+  def test_should_return_calculated_distance_when_same_as_maximum
+    assert_equal 0, distance("test", "test", 0)
+    assert_equal 1, distance("test", "tent", 1)
+    assert_equal 2, distance("gumbo", "gambol", 2)
+    assert_equal 3, distance("kitten", "sitting", 3)
+  end
+
   def test_should_return_specified_maximum_if_distance_is_more
     assert_equal 1, distance("gumbo", "gambol", 1)
     assert_equal 2, distance("kitten", "sitting", 2)
@@ -255,6 +262,12 @@ class LevenshteinTest < Test::Unit::TestCase
     assert_equal 1, distance("te", "t", 1)
     assert_equal 1, distance("te", "t", 2)
     assert_equal 1, distance("te", "t", 4) 
+  end
+
+  def test_should_return_maximum_distance_for_a_long_string
+    assert_equal 440, distance( "Having a catchy name, easy reminder for all is fundamental when choosing the name for a new product. A bad name can be the beginning of the end product and immediately forget this.</p> <p>Primary keys to choose a good brand name are, first: choose a name that only has one word and at most three, such being the optimum. Try to make it easier to read and pronounce, as this will be easier to remember for all the time to talk about your product. Remember, too, that the use of capitalization also influence, you should treat the name of your product as if it were the same logo. And finally, you should avoid using numbers in your product name, unless it is a very easy to remember because this number were tied deeply with your product. Always think globally, independent of which only sell locally, you never know when it can come out in sales and need to make a point.", 
+                                "All product lines work with tags that identify its products and differentiate it from the others or with labels for packaged, or perhaps labels to be placed in the envelopes that you send to your customers. There are thousands options, shapes, designs and colors that you can use and advantage of these is that they can also be adhesive. If you need a label that serve you and that you identify will have your order. You will receive many proposals that you can discard if they don't like you or you keep it if you like and fits your needs. Don't miss the opportunity to innovate and use all the tools that allow you to continue to grow as a company. REMEMBER! a good label, with a good design can increase your sales by 20% just by its appearance.", 
+                                440 )
   end
 
 end
