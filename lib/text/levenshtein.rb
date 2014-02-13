@@ -27,11 +27,8 @@ module Levenshtein
   # beforehand.
   #
   def distance(str1, str2, max_distance = nil)
-    if str1.length > str2.length
-      s, t = [str2, str1].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
-    else
-      s, t = [str1, str2].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
-    end
+    s, t = [str1, str2].sort_by(&:length).
+                        map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
     n = s.length
     m = t.length
     big_int = n*m
