@@ -72,7 +72,7 @@ module Levenshtein
         max = m-1
       end
 
-      for j in min..max
+      (min .. max).each do |j|
         # If the diagonal value is already greater than the max_distance
         # then we can safety return: the diagonal will never go lower again.
         # See: http://www.levenshtein.net/
