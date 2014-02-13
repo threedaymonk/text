@@ -60,7 +60,11 @@ module Levenshtein
       # of the starting index; we don't have to worry about the value above the
       # ending index as the arrays were initially filled with large integers
       # and we progress to the right
-      e = !e || !max_distance ? i + 1 : big_int
+      if e.nil? || max_distance.nil?
+        e = i + 1
+      else
+        e = big_int
+      end
 
       diag_index = (t.length - s.length) + i
       if max_distance
@@ -99,7 +103,11 @@ module Levenshtein
       d[m] = x
     end
 
-    max_distance && x > max_distance ? max_distance : x
+    if max_distance && x > max_distance
+      return max_distance
+    else
+      return x
+    end
   end
 
   extend self
