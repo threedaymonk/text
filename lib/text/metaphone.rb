@@ -45,7 +45,7 @@ module Metaphone
       [ /c(?=ia)/,        'X' ],
       [ /[st](?=i[ao])/,  'X' ],
       [ /s?c(?=[iey])/,   'S' ],
-      [ /[cq]/,           'K' ],
+      [ /(ck?|q)/,        'K' ],
       [ /dg(?=[iey])/,    'J' ],
       [ /d/,              'T' ],
       [ /g(?=h[^aeiou])/, ''  ],
