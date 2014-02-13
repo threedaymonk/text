@@ -31,7 +31,7 @@ module Levenshtein
                         map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
     n = s.length
     m = t.length
-    big_int = n*m
+    big_int = n * m
     return m if n.zero?
     return n if m.zero?
     return 0 if s == t
@@ -66,7 +66,7 @@ module Levenshtein
         e = big_int
       end
 
-      diag_index = (t.length - s.length) + i
+      diag_index = t.length - s.length + i
       if max_distance
         # If max_distance was specified, we can reduce second loop. So we set
         # up our threshold window.
@@ -76,10 +76,10 @@ module Levenshtein
         # Cambridge, UK: Cambridge University Press. ISBN 0-521-58519-8.
         # pp. 263–264.
         min = [0, i - max_distance - 1].max
-        max = [m-1, i + max_distance].min
+        max = [m - 1, i + max_distance].min
       else
         min = 0
-        max = m-1
+        max = m - 1
       end
 
       (min .. max).each do |j|
@@ -90,7 +90,7 @@ module Levenshtein
           return max_distance
         end
 
-        cost = (s[i] == t[j]) ? 0 : 1
+        cost = s[i] == t[j] ? 0 : 1
         x = [
           d[j+1] + 1, # insertion
           e + 1,      # deletion
