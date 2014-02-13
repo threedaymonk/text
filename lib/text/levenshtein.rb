@@ -45,7 +45,13 @@ module Levenshtein
     # The values necessary for our threshold are written; the ones after must
     # be filled with large integers since the tailing member of the threshold
     # window in the bottom array will run min across them
-    d = Array.new(m+1) { |i| (!max_distance || i < [m, max_distance+1].min) ? i : big_int }
+    d = (m + 1).times.map { |i|
+      if max_distance.nil? || i < m || i < max_distance + 1
+        i
+      else
+        big_int
+      end
+    }
     x = nil
     e = nil
 
