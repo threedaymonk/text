@@ -27,6 +27,15 @@ module Levenshtein
   # beforehand.
   #
   def distance(str1, str2, max_distance = nil)
+    if max_distance
+      distance_with_maximum(str1, str2, max_distance)
+    else
+      distance_without_maximum(str1, str2)
+    end
+  end
+
+private
+  def distance_with_maximum(str1, str2, max_distance) # :nodoc:
     s, t = [str1, str2].sort_by(&:length).
                         map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
     n = s.length
@@ -38,7 +47,7 @@ module Levenshtein
 
     # If the length difference is already greater than the max_distance, then
     # there is nothing else to check
-    if max_distance && (n - m).abs >= max_distance
+    if (n - m).abs >= max_distance
       return max_distance
     end
 
@@ -46,7 +55,7 @@ module Levenshtein
     # be filled with large integers since the tailing member of the threshold
     # window in the bottom array will run min across them
     d = (m + 1).times.map { |i|
-      if max_distance.nil? || i < m || i < max_distance + 1
+      if i < m || i < max_distance + 1
         i
       else
         big_int
@@ -60,33 +69,29 @@ module Levenshtein
       # of the starting index; we don't have to worry about the value above the
       # ending index as the arrays were initially filled with large integers
       # and we progress to the right
-      if e.nil? || max_distance.nil?
+      if e.nil?
         e = i + 1
       else
         e = big_int
       end
 
       diag_index = t.length - s.length + i
-      if max_distance
-        # If max_distance was specified, we can reduce second loop. So we set
-        # up our threshold window.
-        # See:
-        # Gusfield, Dan (1997). Algorithms on strings, trees, and sequences:
-        # computer science and computational biology.
-        # Cambridge, UK: Cambridge University Press. ISBN 0-521-58519-8.
-        # pp. 263–264.
-        min = [0, i - max_distance - 1].max
-        max = [m - 1, i + max_distance].min
-      else
-        min = 0
-        max = m - 1
-      end
+
+      # If max_distance was specified, we can reduce second loop. So we set
+      # up our threshold window.
+      # See:
+      # Gusfield, Dan (1997). Algorithms on strings, trees, and sequences:
+      # computer science and computational biology.
+      # Cambridge, UK: Cambridge University Press. ISBN 0-521-58519-8.
+      # pp. 263–264.
+      min = [0, i - max_distance - 1].max
+      max = [m - 1, i + max_distance].min
 
       (min .. max).each do |j|
         # If the diagonal value is already greater than the max_distance
         # then we can safety return: the diagonal will never go lower again.
         # See: http://www.levenshtein.net/
-        if max_distance && j == diag_index && d[j] >= max_distance
+        if j == diag_index && d[j] >= max_distance
           return max_distance
         end
 
@@ -103,11 +108,39 @@ module Levenshtein
       d[m] = x
     end
 
-    if max_distance && x > max_distance
+    if x > max_distance
       return max_distance
     else
       return x
     end
+  end
+
+  def distance_without_maximum(str1, str2) # :nodoc:
+    s, t = [str1, str2].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
+    n = s.length
+    m = t.length
+    return m if n.zero?
+    return n if m.zero?
+
+    d = (0..m).to_a
+    x = nil
+
+    n.times do |i|
+      e = i + 1
+      m.times do |j|
+        cost = (s[i] == t[j]) ? 0 : 1
+        x = [
+          d[j+1] + 1, # insertion
+          e + 1,      # deletion
+          d[j] + cost # substitution
+        ].min
+        d[j] = e
+        e = x
+      end
+      d[m] = x
+    end
+
+    return x
   end
 
   extend self
