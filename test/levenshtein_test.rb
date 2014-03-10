@@ -271,3 +271,93 @@ class LevenshteinTest < Test::Unit::TestCase
   end
 
 end
+
+class LevenshteinGeneratedDataTest < Test::Unit::TestCase
+  Element = Struct.new(:char, :added) do
+    def to_s
+      char
+    end
+  end
+
+  def one_of(str)
+    str[rand(str.length)]
+  end
+
+  def letter
+    one_of "abcdefghijklmnopqrstuvwxyzáéíóúあいうえお日月火水木"
+  end
+
+  def word
+    (rand(10) + 2).times.map { letter }.join("")
+  end
+
+  def sentence
+    (rand(10) + 2).times.map { word }.join(" ")
+  end
+
+  def sequence
+    sentence.scan(/./).map { |c| Element.new(c, true) }
+  end
+
+  def insert(seq)
+    elem = Element.new(letter, true)
+    pos = rand(seq.length)
+    return [seq[0, pos] + [elem] + seq[pos .. -1], 1]
+  end
+
+  # Delete an element, but only if we didn't add it - that would make the
+  # calculations complicated
+  def delete(seq)
+    pos = rand(seq.length)
+    if seq[pos].added
+      return [seq, 0]
+    else
+      return [seq[0, pos] + seq[(pos + 1) .. -1], 1]
+    end
+  end
+
+  def substitute(seq)
+    pos = rand(seq.length)
+    if seq[pos].added
+      return [seq, 0]
+    else
+      elem = Element.new(letter, false)
+      return [seq[0, pos] + [elem] + se[(pos + 1) .. -1], 1]
+    end
+  end
+
+  def mutate(seq)
+    distance = 0
+    rand(seq.length).times do
+      method = [:insert, :delete, :substitute][rand(2)]
+      seq, d = send(method, seq)
+      distance += d
+    end
+    return [seq, distance]
+  end
+
+  def test_generated_samples
+    100.times do
+      input = sequence
+      output, distance = mutate(input)
+      a = input.map(&:to_s).join("")
+      b = output.map(&:to_s).join("")
+      assert_equal distance, Text::Levenshtein.distance(a, b)
+    end
+  end
+
+  def test_generated_samples_with_maximum_distance
+    100.times do
+      input = sequence
+      output, distance = mutate(input)
+      a = input.map(&:to_s).join("")
+      b = output.map(&:to_s).join("")
+      (0 .. distance).each do |d|
+        assert_equal d, Text::Levenshtein.distance(a, b, d)
+      end
+      (distance .. sequence.length).each do |d|
+        assert_equal distance, Text::Levenshtein.distance(a, b, d)
+      end
+    end
+  end
+end
