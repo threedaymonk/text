@@ -5,7 +5,7 @@ require 'yaml'
 class SoundexTest < Test::Unit::TestCase
 
   def test_cases
-    YAML.load(data_file('soundex.txt')).each do |input, expected_output|
+    YAML.load(data_file('soundex.yml')).each do |input, expected_output|
       assert_equal expected_output, Text::Soundex.soundex(input)
     end
   end
