@@ -48,7 +48,7 @@ module Soundex
       end
     end # for
 
-    return soundex_code + "000"[0,4-soundex_code.size]
+    return soundex_code.ljust(4, "0")
   end
   module_function :soundex_str
 
