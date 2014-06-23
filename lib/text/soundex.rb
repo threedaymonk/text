@@ -40,8 +40,6 @@ module Soundex
 
       if code == "0" then
         last_code = nil
-      elsif code == nil then
-        return nil
       elsif code != last_code then
         soundex_code += code
         last_code = code
