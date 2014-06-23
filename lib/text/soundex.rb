@@ -27,9 +27,9 @@ module Soundex
   # do not change the parameter "str"
   #
   def soundex_str(str)
+    str = str.upcase.gsub(/[^A-Z]/, "")
     return nil if str.empty?
 
-    str = str.upcase.gsub(/[^A-Z]/, "")
     last_code = get_code(str[0,1])
     soundex_code = str[0,1]
 

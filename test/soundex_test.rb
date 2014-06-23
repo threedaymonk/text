@@ -10,4 +10,11 @@ class SoundexTest < Test::Unit::TestCase
     end
   end
 
+  def test_should_return_nil_for_empty_string
+    assert_nil Text::Soundex.soundex("")
+  end
+
+  def test_should_return_nil_for_string_with_no_letters
+    assert_nil Text::Soundex.soundex("!@#123")
+  end
 end
