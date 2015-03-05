@@ -84,10 +84,12 @@ private
       # computer science and computational biology.
       # Cambridge, UK: Cambridge University Press. ISBN 0-521-58519-8.
       # pp. 263–264.
-      min = [0, i - max_distance - 1].max
-      max = [m - 1, i + max_distance].min
+      min = i - max_distance - 1
+      min = 0 if min < 0
+      max = i + max_distance
+      max = m - 1 if max > m - 1
 
-      (min .. max).each do |j|
+      min.upto(max) do |j|
         # If the diagonal value is already greater than the max_distance
         # then we can safety return: the diagonal will never go lower again.
         # See: http://www.levenshtein.net/
@@ -96,11 +98,11 @@ private
         end
 
         cost = s[i] == t[j] ? 0 : 1
-        x = [
-          d[j+1] + 1, # insertion
-          e + 1,      # deletion
-          d[j] + cost # substitution
-        ].min
+        insertion = d[j + 1] + 1
+        deletion = e + 1
+        substitution = d[j] + cost
+        x = insertion < deletion ? insertion : deletion
+        x = substitution if substitution < x
 
         d[j] = e
         e = x
@@ -129,11 +131,11 @@ private
       e = i + 1
       m.times do |j|
         cost = (s[i] == t[j]) ? 0 : 1
-        x = [
-          d[j+1] + 1, # insertion
-          e + 1,      # deletion
-          d[j] + cost # substitution
-        ].min
+        insertion = d[j + 1] + 1
+        deletion = e + 1
+        substitution = d[j] + cost
+        x = insertion < deletion ? insertion : deletion
+        x = substitution if substitution < x
         d[j] = e
         e = x
       end
