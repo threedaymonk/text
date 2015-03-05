@@ -130,12 +130,13 @@ private
     n.times do |i|
       e = i + 1
       m.times do |j|
-        cost = (s[i] == t[j]) ? 0 : 1
+        cost = s[i] == t[j] ? 0 : 1
         insertion = d[j + 1] + 1
         deletion = e + 1
         substitution = d[j] + cost
         x = insertion < deletion ? insertion : deletion
         x = substitution if substitution < x
+
         d[j] = e
         e = x
       end
