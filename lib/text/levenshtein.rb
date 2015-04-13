@@ -41,15 +41,16 @@ private
     n = s.length
     m = t.length
     big_int = n * m
-    return m if n.zero?
-    return n if m.zero?
-    return 0 if s == t
 
     # If the length difference is already greater than the max_distance, then
     # there is nothing else to check
     if (n - m).abs >= max_distance
       return max_distance
     end
+
+    return 0 if s == t
+    return m if n.zero?
+    return n if m.zero?
 
     # The values necessary for our threshold are written; the ones after must
     # be filled with large integers since the tailing member of the threshold
