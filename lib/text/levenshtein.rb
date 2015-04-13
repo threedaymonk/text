@@ -36,11 +36,15 @@ module Levenshtein
 
 private
   def distance_with_maximum(str1, str2, max_distance) # :nodoc:
-    s, t = [str1, str2].sort_by(&:length).
-                        map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
+    s = str1.encode(Encoding::UTF_8).unpack("U*")
+    t = str2.encode(Encoding::UTF_8).unpack("U*")
+
     n = s.length
     m = t.length
     big_int = n * m
+
+    # Swap if necessary so that s is always the shorter of the two strings
+    s, t, n, m = t, s, m, n if m < n
 
     # If the length difference is already greater than the max_distance, then
     # there is nothing else to check
