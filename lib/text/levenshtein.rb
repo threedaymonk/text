@@ -119,9 +119,12 @@ private
   end
 
   def distance_without_maximum(str1, str2) # :nodoc:
-    s, t = [str1, str2].map{ |str| str.encode(Encoding::UTF_8).unpack("U*") }
+    s = str1.encode(Encoding::UTF_8).unpack("U*")
+    t = str2.encode(Encoding::UTF_8).unpack("U*")
+
     n = s.length
     m = t.length
+
     return m if n.zero?
     return n if m.zero?
 
