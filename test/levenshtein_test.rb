@@ -48,6 +48,12 @@ class LevenshteinTest < Test::Unit::TestCase
     assert_equal 3, distance("kitten", "sitting", 4)
   end
 
+  def test_should_return_calculated_distance_when_less_than_maximum_for_empty_strings
+    assert_equal 3, distance("", "cat", 4)
+    assert_equal 3, distance("cat", "", 5)
+    assert_equal 0, distance("", "", 2)
+  end
+
   def test_should_return_calculated_distance_when_same_as_maximum
     assert_equal 0, distance("test", "test", 0)
     assert_equal 1, distance("test", "tent", 1)
@@ -55,10 +61,21 @@ class LevenshteinTest < Test::Unit::TestCase
     assert_equal 3, distance("kitten", "sitting", 3)
   end
 
+  def test_should_return_calculated_distance_when_same_as_maximum_for_empty_strings
+    assert_equal 3, distance("", "cat", 3)
+    assert_equal 3, distance("cat", "", 3)
+    assert_equal 0, distance("", "", 0)
+  end
+
   def test_should_return_specified_maximum_if_distance_is_more
     assert_equal 1, distance("gumbo", "gambol", 1)
     assert_equal 2, distance("kitten", "sitting", 2)
     assert_equal 1, distance("test", "tasf", 1)
+  end
+
+  def test_should_return_specified_maximum_if_distance_is_more_for_empty_strings
+    assert_equal 2, distance("kitten", "", 2)
+    assert_equal 3, distance("", "kitten", 3)
   end
 
   def test_should_return_maximum_distance_for_strings_with_additions_at_start
